@@ -12,36 +12,45 @@ if (isset ( $_GET ['action'] )) {
 	if ($result == 'save') {
 		?>
 		<div class="alert alert-success fade in alert-custom"
-		id="alertSuccessMessage">
-		<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-		<strong><i class="fa fa-check"></i> Datensatz ge&auml;ndert!</strong>
-		<br /> Der Datensatz wurde bearbeitet.
-	</div>
+	id="alertSuccessMessage">
+	<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+	<strong><i class="fa fa-check"></i> Datensatz ge&auml;ndert!</strong> <br />
+	Der Datensatz wurde bearbeitet.
+</div>
 		<?php
 	} else if ($result == 'create') {
 		?>
 		<div class="alert alert-success fade in alert-custom"
-		id="alertSuccessMessage">
-		<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-		<strong><i class="fa fa-plus"></i> Datensatz hinzugef&uuml;gt!</strong>
-		<br /> Der Datensatz wurde hinzugef&uuml;gt.
-	</div>
+	id="alertSuccessMessage">
+	<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+	<strong><i class="fa fa-plus"></i> Datensatz hinzugef&uuml;gt!</strong>
+	<br /> Der Datensatz wurde hinzugef&uuml;gt.
+</div>
 			<?php
 	} else if ($result = 'delete') {
 		if (isset ( $_GET ['id'] )) {
-			$id = htmlspecialchars($_GET['id']);
-			$query = "delete from material where id = '" .$id. "';";
-			$result = $conn->query($query);
+			$id = htmlspecialchars ( $_GET ['id'] );
+			$query = "delete from material where id = '" . $id . "';";
+			$result = $conn->query ( $query );
 			
-			if($result){
+			if ($result) {
 				?>
 				<div class="alert alert-danger fade in alert-custom"
-		id="alertSuccessMessage">
-		<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-		<strong><i class="fa fa-trash"></i> Datensatz gel&ouml;scht!</strong>
-		<br /> Der Datensatz wurde gel&ouml;scht.
-	</div>
-				<?php 	
+	id="alertSuccessMessage">
+	<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+	<strong><i class="fa fa-trash"></i> Datensatz gel&ouml;scht!</strong> <br />
+	Der Datensatz wurde gel&ouml;scht.
+</div>
+				<?php
+			} else {
+				?><div class="alert alert-warning fade in alert-custom"
+	id="alertSuccessMessage">
+	<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+	<strong><i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+		Warnung!</strong> <br /> Datensatz konnte nicht gel&ouml;scht werden.
+	<br />M&ouml;glicherweise ist er noch von einem anderen Datensatz in
+	Gebrauch.
+</div><?php
 			}
 		}
 	}
@@ -84,9 +93,8 @@ include_once 'resources/navigation.php';
 						echo '<td>' . $res ['SerialNumber'] . '</td>';
 						echo '<td>' . $res ['Description'] . '</td>';
 						echo '<td>' . $res ['Size'] . '</td>';
-						echo '<td class="text-right"><a href="material/edit.php?id=' . $res ['ID'] . '"><i class="fa fa-pencil"></i></a> <a href="material.delete.php"><i class="fa fa-trash"></i></a></td>';
-						echo '</tr>';
-					} 
+						echo '<td class="text-right"><a href="material/edit.php?id=' . $res ['ID'] . '"><i class="fa fa-pencil"></i></a> <a href="' . $_SERVER ["PHP_SELF"] . '?action=delete&id=' . $res ['ID'] . '"><i class="fa fa-trash"></i></a></td>';
+					}
 					?>
 					
 				</tbody>

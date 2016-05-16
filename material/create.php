@@ -34,7 +34,7 @@ if ((isset ( $_POST ['serialNumber'] )) && (isset ( $_POST ['description'] )) &&
 		<div class="alert alert-danger fade in alert-custom">
 	<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
 	<strong><i class="fa fa-exclamation-circle"></i> Achtung!</strong> <br />
-	Der Datensatz konnte nicht ge&auml;ndert werden.
+	Der Datensatz konnte nicht erstellt werden.
 </div>
 		<?php
 		}
@@ -78,11 +78,11 @@ include_once '../resources/undernavigation.php';
 					<div class="form-group">
 					<label for="inputSerialNumber">Seriennummer</label> <input
 						type="text" class="form-control" name="serialNumber"
-						id="serialNumber" placeholder="Serien Nummer" value="">
+						id="serialNumber" placeholder="Serien Nummer" value="" required>
 				</div>
 				<div class="form-group">
 					<label for="description">Beschreibung</label> <select
-						name="description" class="form-control">
+						name="description" class="form-control" required>
 					<?php
 					while ( $fetch = $executeRes->fetch_assoc () ) {
 						echo '<option value="' . $fetch ['ID'] . '">' . $fetch ['Description'] . '</option>';
@@ -93,7 +93,8 @@ include_once '../resources/undernavigation.php';
 				</div>
 				<div class="form-group">
 					<label for="rank">Gr&ouml;sse</label> <select name="size"
-						class="form-control">
+						class="form-control" required>
+						<option selected disabled>-- Option w&auml;hlen --</option>
 					<?php
 					$selectRankQuery = "select ID, Size from size";
 					

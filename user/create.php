@@ -1,11 +1,5 @@
 <?php
 $message = "";
-if (isset ( $_GET ['id'] )) {
-	$id = htmlspecialchars ( $_GET ['id'] );
-} else if (isset ( $_POST ['id'] )) {
-	$id = htmlspecialchars ( $_POST ['id'] );
-}
-
 ?>
 <html>
 <head>
@@ -18,26 +12,41 @@ include_once '../model/User.php';
 </head>
 <?php
 
-if ((isset ( $_POST ['kuerzel'] )) && (isset ( $_POST ['surname'] )) && (isset ( $_POST ['name'] )) && (isset($_POST['rank']))) {
+if ((isset ( $_POST ['kuerzel'] )) && (isset ( $_POST ['surname'] )) && (isset ( $_POST ['name'] )) && (isset ( $_POST ['rank'] ))) {
 	$insertUser = new User ();
 	$insertUser->setKuerzel ( htmlspecialchars ( $_POST ['kuerzel'] ) );
 	$insertUser->setVorname ( htmlspecialchars ( $_POST ['surname'] ) );
 	$insertUser->setNachname ( htmlspecialchars ( $_POST ['name'] ) );
-	$insertUser->setRangId(htmlspecialchars ( $_POST ['rank'] ));
+	$insertUser->setRangId ( htmlspecialchars ( $_POST ['rank'] ) );
 	
-	$query = "update user set surname = '" . $insertUser->getVorname () . "', name = '" . $insertUser->getNachname () . "', RankId = '" . $insertUser->getRangId() . "' where id = '" . $insertUser->getKuerzel () . "';";
-	var_dump ( $query );
-	$conn->query ( $query );
-	if ($conn->query ( $query )) {
-		header ( "Location: ../user.php" );
-	} else {
-		?>
-			<div class="alert alert-danger fade in alert-custom">
+	$selectquery = "select rank from user where id = '" . $insertUser->getKuerzel () . "'";
+	$res = $conn->query ( $selectquery );
+	
+	if ($res->num_rows < 1) {
+		
+		$query = "insert into user (id, surname, name, rankId) values ('" . $insertUser->getKuerzel () . "', '" . $insertUser->getVorname () . "', '" . $insertUser->getNachname () . "', '" . $insertUser->getRangId () . "');";
+		$result = $conn->query ( $query );
+		if ($result) {
+			header ( "Location: ../user.php?action=create" );
+		} else {
+			?>
+		<div class="alert alert-danger fade in alert-custom">
 	<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
 	<strong><i class="fa fa-exclamation-circle"></i> Achtung!</strong> <br />
 	Der Datensatz konnte nicht ge&auml;ndert werden.
 </div>
-			<?php
+		<?php
+		}
+	} else {
+		?>
+		<div class="alert alert-warning fade in alert-custom"
+	id="alertSuccessMessage">
+	<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+	<strong><i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+		Datensatz schon vorhanden</strong> <br /> Der Datensatz ist schon
+	vorhanden.
+</div>
+		<?php
 	}
 }
 ?>
@@ -58,50 +67,35 @@ include_once '../resources/undernavigation.php';
 			<h2>Benutzer bearbeiten</h2>
 		</div>
 		<div class="row container">
-			
-					<?php
-					$query = "select u.ID, u.Surname, u.Name, r.Rank from user u join rank r on u.RankId = r.ID where u.ID = '$id'";
-					$result = $conn->query ( $query );
-					$user = new User ();
-					while ( $res = $result->fetch_assoc () ) {
-						$user->setKuerzel ( $res ['ID'] );
-						$user->setVorname ( $res ['Surname'] );
-						$user->setNachname ( $res ['Name'] );
-						$user->setRangId ( $res ['Rank'] );
-					}
-					
-					$selectRankQuery = "select ID, Rank from rank";
-					
-					$executeRes = $conn->query ( $selectRankQuery );
-					?>
+<?php
+$selectRankQuery = "select ID, Rank from rank";
+
+$executeRes = $conn->query ( $selectRankQuery );
+?>
 					<form action="<?php echo $_SERVER["PHP_SELF"]; ?>" method="post">
 					<?php echo $message; ?>
 				<div class="form-group">
-					<label for="inputKuerzel">K&uuml;rzel</label>
-					<input type="text" class="form-control" name="kuerzel"
-						id="inputkuerzel" placeholder="K&uuml;erzel"
-						value="<?php echo $user->getKuerzel() ?>" readonly required>
+					<label for="inputKuerzel">K&uuml;rzel</label> <input type="text"
+						class="form-control" name="kuerzel" id="inputkuerzel"
+						placeholder="K&uuml;erzel"
+						value="" required>
 				</div>
 				<div class="form-group">
 					<label for="inputVorname">Vorname</label> <input type="text"
 						class="form-control" name="surname" id="inputvorname"
-						placeholder="Vorname" value="<?php echo $user->getVorname(); ?>" required>
+						placeholder="Vorname" value="" required>
 				</div>
 				<div class="form-group">
 					<label for="inputNachname">Nachname</label> <input type="text"
 						class="form-control" name="name" id="inputnachname"
-						placeholder="Nachname" value="<?php echo $user->getNachname() ?>" required>
+						placeholder="Nachname" value="" required>
 				</div>
 				<div class="form-group">
 					<label for="rank">Rang</label> <select name="rank"
 						class="form-control" required>
 					<?php
 					while ( $fetch = $executeRes->fetch_assoc () ) {
-						if ($fetch ['Rank'] == $user->getRangId ()) {
-							echo '<option value="' . $fetch ['ID'] . '" selected>' . $fetch ['Rank'] . '</option>';
-						} else {
-							echo '<option value="' . $fetch ['ID'] . '">' . $fetch ['Rank'] . '</option>';
-						}
+						echo '<option value="' . $fetch ['ID'] . '">' . $fetch ['Rank'] . '</option>';
 					}
 					
 					?>

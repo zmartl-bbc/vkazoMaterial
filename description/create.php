@@ -6,23 +6,23 @@ $message = "";
 <?php
 include_once '../resources/head.php';
 include_once '../includes/database.php';
-include_once '../model/Size.php';
 ?>
 
 </head>
 <?php
 
-if (isset ( $_POST ['size'] )) {
-	$size = strtoupper ( htmlspecialchars ( $_POST ['size'] ) );
-	$selectquery = "select id from size where Size = '" . $size . "'";
+if (isset ( $_POST ['description'] )) {
+	$description = htmlspecialchars ( $_POST ['description'] );
+	$selectquery = "select id from materialdescription where Description ='" . $description . "'";
+	
 	$res = $conn->query ( $selectquery );
 	
 	if ($res->num_rows < 1) {
 		
-		$query = "insert into size (Size) values ('" . $size . "');";
+		$query = "insert into materialdescription (description) values ('" . $description . "');";
 		$result = $conn->query ( $query );
 		if ($result) {
-			header ( "Location: ../size.php?action=create" );
+			header ( "Location: ../description.php?action=create" );
 		} else {
 			?>
 		<div class="alert alert-danger fade in alert-custom">
@@ -59,20 +59,19 @@ if (isset ( $_POST ['size'] )) {
 include_once '../resources/undernavigation.php';
 ?>
 <div class="container">
-			<h2>Gr&ouml;sse hinzuf&uuml;gen</h2>
+			<h2>Materialbeschreibung hinzuf&uuml;gen</h2>
 		</div>
 		<div class="row container">
 			<form action="<?php echo $_SERVER["PHP_SELF"]; ?>" method="post">
 					<?php echo $message; ?>
 				<div class="form-group">
 					<input class="form-control" type="hidden" name="id" value=""> <label
-						for="inputSize">Gr&ouml;sse</label> <input type="text"
-						class="form-control" name="size" id="inputSize"
-						placeholder="Gr&ouml;sse"
-						value="<?php if(isset($size)){echo $size;} ?>" required>
+						for="inputDescription">Materialbeschreibung</label> <input type="text"
+						class="form-control" name="description" id="inputDescription" placeholder="Materialbeschreibung"
+						value="<?php if(isset($description)){echo $description;}?>" required>
 				</div>
 				<button type="submit" class="btn btn-default">Speichern</button>
-				<a href="../size.php" class="cancel"> Abbrechen</a>
+				<a href="../description.php" class="cancel"> Abbrechen</a>
 			</form>
 		</div>
 

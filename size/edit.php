@@ -85,7 +85,7 @@ include_once '../resources/undernavigation.php';
 					<input class="form-control" type="hidden" name="id"
 						value="<?php echo $id; ?>"> <label for="inputSize">Gr&ouml;sse</label>
 					<input type="text" class="form-control" name="size" id="inputSize"
-						placeholder="Gr&ouml;sse" value="<?php echo $size->getSize(); ?>">
+						placeholder="Gr&ouml;sse" value="<?php echo $size->getSize(); ?>" required>
 				</div>
 				<button type="submit" class="btn btn-default">Speichern</button>
 				<a href="../size.php" class="cancel"> Abbrechen</a>

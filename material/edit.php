@@ -99,7 +99,7 @@ include_once '../resources/undernavigation.php';
 				</div>
 				<div class="form-group">
 					<label for="description">Beschreibung</label> <select
-						name="description" class="form-control">
+						name="description" class="form-control" required>
 					<?php
 					while ( $fetch = $executeRes->fetch_assoc () ) {
 						if ($fetch ['Description'] == $material->getDescription ()) {
@@ -114,7 +114,7 @@ include_once '../resources/undernavigation.php';
 				</div>
 				<div class="form-group">
 					<label for="rank">Gr&ouml;sse</label> <select name="size"
-						class="form-control">
+						class="form-control" required>
 					<?php
 					$selectRankQuery = "select ID, Size from size";
 					

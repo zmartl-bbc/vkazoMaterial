@@ -12,24 +12,24 @@ if (isset ( $_GET ['id'] )) {
 <?php
 include_once '../resources/head.php';
 include_once '../includes/database.php';
-include_once '../model/Rang.php';
+include_once '../model/Description.php';
 ?>
 
 </head>
 <?php
 
-if (isset ( $_POST ['rank'] )) {
-	$rank = htmlspecialchars ( $_POST ['rank'] );
-	$selectquery = "select id from rank where Rank = '" . $rank . "'";
+if (isset ( $_POST ['description'] )) {
+	$description = htmlspecialchars ( $_POST ['description'] );
+	$selectquery = "select id from materialdescription where description = '" . $description . "'";
 	
 	$res = $conn->query ( $selectquery );
 	
 	if ($res->num_rows < 1) {
 		
-		$query = "update rank set Rank = '" . $rank . "' where id = " . $id . ";";
+		$query = "update materialdescription set Description = '" . $description . "' where id = " . $id . ";";
 		$conn->query ( $query );
 		if ($conn->query ( $query )) {
-			header ( "Location: ../rank.php?action=save" );
+			header ( "Location: ../description.php?action=save" );
 		} else {
 			?>
 			<div class="alert alert-danger fade in alert-custom">
@@ -66,29 +66,29 @@ if (isset ( $_POST ['rank'] )) {
 include_once '../resources/undernavigation.php';
 ?>
 <div class="container">
-			<h2>Rang bearbeiten</h2>
+			<h2>Materialbeschreibung bearbeiten</h2>
 		</div>
 		<div class="row container">
 			
 					<?php
-					$query = "select id, rank from rank where id = " . $id . ";";
+					$query = "select id, description from materialdescription where id = " . $id . ";";
 					$result = $conn->query ( $query );
-					$rang = new Rang ();
+					$description = new Description ();
 					while ( $res = $result->fetch_assoc () ) {
-						$rang->setId ( $res ['id'] );
-						$rang->setRang ( $res ['rank'] );
+						$description->setId ( $res ['id'] );
+						$description->setDescription ( $res ['description'] );
 					}
 					?>
 					<form action="<?php echo $_SERVER["PHP_SELF"]; ?>" method="post">
 					<?php echo $message; ?>
 				<div class="form-group">
 					<input class="form-control" type="hidden" name="id"
-						value="<?php echo $id; ?>"> <label for="inputSize">Rang</label> <input
-						type="text" class="form-control" name="rank" id="inputRang"
-						placeholder="Rang" value="<?php echo $rang->getRang(); ?>" required>
+						value="<?php echo $id; ?>"> <label for="inputSize">Materialbeschreibung</label> <input
+						type="text" class="form-control" name="description" id="inputDescription"
+						placeholder="Material Beschreibung" value="<?php echo $description->getDescription() ?>" required>
 				</div>
 				<button type="submit" class="btn btn-default">Speichern</button>
-				<a href="../rank.php" class="cancel"> Abbrechen</a>
+				<a href="../description.php" class="cancel"> Abbrechen</a>
 			</form>
 		</div>
 

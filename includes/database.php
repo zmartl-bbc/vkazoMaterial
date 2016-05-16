@@ -2,7 +2,7 @@
 $host = "localhost";
 $user = "root";
 $password = "";
-$db = "materialvkazo";
+$db = "vkazomaterial";
 $port = "3306";
 
 //$host = "localhost";

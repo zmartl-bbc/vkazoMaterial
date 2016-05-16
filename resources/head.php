@@ -1,5 +1,7 @@
 <link rel="stylesheet" href="/vkazoMaterial/styles/app.css"
 	type="text/css" />
+<link rel="stylesheet" href="/vkazoMaterial/styles/style.css"
+	type="text/css" />
 
 <!-- ToDo -->
 <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon" />

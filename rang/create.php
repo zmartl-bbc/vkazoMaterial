@@ -69,7 +69,7 @@ include_once '../resources/undernavigation.php';
 					<input class="form-control" type="hidden" name="id" value=""> <label
 						for="inputRang">Gr&ouml;sse</label> <input type="text"
 						class="form-control" name="rank" id="inputRang" placeholder="Rang"
-						value="<?php if(isset($rank)){echo $rank;}?>">
+						value="<?php if(isset($rank)){echo $rank;}?>" required>
 				</div>
 				<button type="submit" class="btn btn-default">Speichern</button>
 				<a href="../rank.php" class="cancel"> Abbrechen</a>
