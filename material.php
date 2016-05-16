@@ -62,30 +62,33 @@ include_once 'resources/navigation.php';
 ?>
 <div class="container">
 			<h2>Material</h2>
-			<a href="#" class="btn btn-warning">Hinzuf&uuml;gen</a>
+			<a href="material/create.php" class="btn btn-warning">Hinzuf&uuml;gen</a>
 		</div>
 		<div class="row container">
 			<table class="table table-striped">
 				<thead>
 					<tr>
-						<th class="col-md-6">Bezeichnung</th>
-						<th class="col-md-5">Gr&ouml;sse</th>
+						<th class="col-md-2">Seriennummer</th>
+						<th class="col-md-5">Bezeichnung</th>
+						<th class="col-md-4">Gr&ouml;sse</th>
 						<th class="col-md-1 text-right">Aktion</th>
 					</tr>
 				</thead>
 				<tbody>
 					<?php
-					$query = "SELECT m.id, d.Description, s.Size FROM material m join size s on m.ID = s.ID join materialdescription d on m.DescriptionId = d.ID;";
+					$query = "select m.ID, m.SerialNumber, d.Description, s.Size from material m join materialdescription d on m.DescriptionId = d.ID join Size s on m.SizeId = s.ID";
 					$result = $conn->query ( $query );
 					
 					while ( $res = $result->fetch_assoc () ) {
 						echo '<tr>';
+						echo '<td>' . $res ['SerialNumber'] . '</td>';
 						echo '<td>' . $res ['Description'] . '</td>';
 						echo '<td>' . $res ['Size'] . '</td>';
-						echo '<td class="text-right"><a href="material/edit.php?id=' . $res ['id'] . '"><i class="fa fa-pencil"></i></a> <a href="material.delete.php"><i class="fa fa-trash"></i></a></td>';
+						echo '<td class="text-right"><a href="material/edit.php?id=' . $res ['ID'] . '"><i class="fa fa-pencil"></i></a> <a href="material.delete.php"><i class="fa fa-trash"></i></a></td>';
 						echo '</tr>';
-					}
+					} 
 					?>
+					
 				</tbody>
 			</table>
 		</div>

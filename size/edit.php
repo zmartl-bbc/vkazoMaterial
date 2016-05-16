@@ -20,15 +20,33 @@ include_once '../model/Size.php';
 
 if (isset ( $_POST ['size'] )) {
 	$size = htmlspecialchars ( $_POST ['size'] );
-	$query = "update groesse set Groesse = '" . $size . "' where id = " . $id . ";";
-	$conn->query ( $query );
-	if ($conn->query ( $query )) {
-		header ( "Location: ../size.php?action=save" );
-	} else {
-		?>
+	$selectquery = "select id from size where Size = '" . $size . "'";
+	
+	$res = $conn->query ( $selectquery );
+	
+	if ($res->num_rows < 1) {
+		
+		$query = "update size set Size = '" . $size . "' where id = " . $id . ";";
+		$conn->query ( $query );
+		if ($conn->query ( $query )) {
+			header ( "Location: ../size.php?action=save" );
+		} else {
+			?>
 		<div class="alert alert-danger fade in alert-custom">
 	<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-	<strong><i class="fa fa-exclamation-circle"></i> Achtung!</strong> <br/> Der Datensatz konnte nicht ge&auml;ndert werden.
+	<strong><i class="fa fa-exclamation-circle"></i> Achtung!</strong> <br />
+	Der Datensatz konnte nicht ge&auml;ndert werden.
+</div>
+		<?php
+		}
+	} else {
+		?>
+		<div class="alert alert-warning fade in alert-custom"
+	id="alertSuccessMessage">
+	<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+	<strong><i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+		Datensatz schon vorhanden</strong> <br /> Der Datensatz ist schon
+	vorhanden.
 </div>
 		<?php
 	}
@@ -45,7 +63,7 @@ if (isset ( $_POST ['size'] )) {
 			</div>
 		</div>
 <?php
-include_once '../resources/navigation.php';
+include_once '../resources/undernavigation.php';
 ?>
 <div class="container">
 			<h2>Gr&ouml;sse bearbeiten</h2>
@@ -53,11 +71,11 @@ include_once '../resources/navigation.php';
 		<div class="row container">
 			
 					<?php
-					$query = "select id, groesse from groesse where id = " . $id . ";";
+					$query = "select id, size from size where id = " . $id . ";";
 					$result = $conn->query ( $query );
 					$size = new Size ();
 					while ( $res = $result->fetch_assoc () ) {
-						$size->setSize ( $res ['groesse'] );
+						$size->setSize ( $res ['size'] );
 						$size->setId ( $res ['id'] );
 					}
 					?>

@@ -30,7 +30,7 @@ if (isset ( $_GET ['action'] )) {
 	} else if ($result = 'delete') {
 		if (isset ( $_GET ['id'] )) {
 			$id = htmlspecialchars($_GET['id']);
-			$query = "delete from groesse where id = '" .$id. "';";
+			$query = "delete from size where id = '" .$id. "';";
 			$result = $conn->query($query);
 			
 			if($result){
@@ -42,6 +42,13 @@ if (isset ( $_GET ['action'] )) {
 		<br /> Der Datensatz wurde gel&ouml;scht.
 	</div>
 				<?php 	
+			} else {
+				?><div class="alert alert-warning fade in alert-custom"
+		id="alertSuccessMessage">
+		<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+		<strong><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Warnung!</strong>
+		<br /> Datensatz konnte nicht gel&ouml;scht werden. <br/>M&ouml;glicherweise ist er noch von einem anderen Datensatz in Gebrauch.
+	</div><?php
 			}
 		}
 	}
@@ -73,11 +80,11 @@ include_once 'resources/navigation.php';
 				</thead>
 				<tbody>
 					<?php
-					$query = "select id, groesse from groesse;";
+					$query = "select id, size from size;";
 					$result = $conn->query ( $query );
 					
 					while ( $res = $result->fetch_assoc () ) {
-						echo '<tr><td>' . $res ["groesse"] . '</td><td class="text-right"><a href="size/edit.php?id=' . $res ['id'] . '"><i class="fa fa-pencil"></i></a> <a href="' . $_SERVER ["PHP_SELF"] . '?action=delete&id=' . $res ['id'] . '"><i class="fa fa-trash"></i></a></td></tr>';
+						echo '<tr><td>' . $res ["size"] . '</td><td class="text-right"><a href="size/edit.php?id=' . $res ['id'] . '"><i class="fa fa-pencil"></i></a> <a href="' . $_SERVER ["PHP_SELF"] . '?action=delete&id=' . $res ['id'] . '"><i class="fa fa-trash"></i></a></td></tr>';
 					}
 					?>
 				</tbody>

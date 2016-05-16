@@ -21,7 +21,7 @@ include_once 'resources/navigation.php';
 ?>
 <div class="container">
 			<h2>User</h2>
-			<a href="#" class="btn btn-warning">Hinzuf&uuml;gen</a>
+			<a href="user/create.php" class="btn btn-warning">Hinzuf&uuml;gen</a>
 		</div>
 		<div class="row container">
 			<table class="table table-striped">
@@ -36,16 +36,16 @@ include_once 'resources/navigation.php';
 				</thead>
 				<tbody>
 					<?php
-					$query = "SELECT id, Kuerzel, Vorname, Nachname, r.Rang FROM user u join rang r on u.RangID = r.ID";
+					$query = "SELECT u.Id, u.Surname, u.Name, r.Rank FROM user u join rank r on u.RankID = r.ID";
 					$result = $conn->query ( $query );
 					
 					while ( $res = $result->fetch_assoc () ) {
 						echo '<tr>';
-						echo '<td>' . $res ['Rang'] . '</td>';
-						echo '<td>' . $res ['Kuerzel'] . '</td>';
-						echo '<td>' . $res ['Vorname'] . '</td>';
-						echo '<td>' . $res ['Nachname'] . '</td>';
-						echo '<td class="text-right"><a href="user/edit.php?id=' . $res ['id'] . '"><i class="fa fa-pencil"></i></a> <a href="user.delete.php"><i class="fa fa-trash"></i></a></td>';
+						echo '<td>' . $res ['Rank'] . '</td>';
+						echo '<td>' . $res ['Id'] . '</td>';
+						echo '<td>' . $res ['Surname'] . '</td>';
+						echo '<td>' . $res ['Name'] . '</td>';
+						echo '<td class="text-right"><a href="user/edit.php?id=' . $res ['Id'] . '"><i class="fa fa-pencil"></i></a> <a href="user.delete.php"><i class="fa fa-trash"></i></a></td>';
 						echo '</tr>';
 					}
 					?>

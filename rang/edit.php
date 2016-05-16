@@ -18,20 +18,38 @@ include_once '../model/Rang.php';
 </head>
 <?php
 
-if (isset ( $_POST ['rang'] )) {
-	$rang = htmlspecialchars ( $_POST ['rang'] );
-	$query = "update rang set Rang = '" . $rang . "' where id = " . $id . ";";
-	$conn->query ( $query );
-	if ($conn->query ( $query )) {
-		header ( "Location: ../rang.php?action=save" );
-	} else {
-		?>
+if (isset ( $_POST ['rank'] )) {
+	$rank = htmlspecialchars ( $_POST ['rank'] );
+	$selectquery = "select id from rank where Rank = '" . $rank . "'";
+	
+	$res = $conn->query ( $selectquery );
+	
+	if ($res->num_rows < 1) {
+		
+		$query = "update rank set Rank = '" . $rank . "' where id = " . $id . ";";
+		$conn->query ( $query );
+		if ($conn->query ( $query )) {
+			header ( "Location: ../rank.php?action=save" );
+		} else {
+			?>
 			<div class="alert alert-danger fade in alert-custom">
-		<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-		<strong><i class="fa fa-exclamation-circle"></i> Achtung!</strong> <br/> Der Datensatz konnte nicht ge&auml;ndert werden.
-	</div>
+	<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+	<strong><i class="fa fa-exclamation-circle"></i> Achtung!</strong> <br />
+	Der Datensatz konnte nicht ge&auml;ndert werden.
+</div>
 			<?php
 		}
+	} else {
+		?>
+		<div class="alert alert-warning fade in alert-custom"
+	id="alertSuccessMessage">
+	<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+	<strong><i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+		Datensatz schon vorhanden</strong> <br /> Der Datensatz ist schon
+	vorhanden.
+</div>
+		<?php
+	}
 }
 ?>
 <body>
@@ -45,7 +63,7 @@ if (isset ( $_POST ['rang'] )) {
 			</div>
 		</div>
 <?php
-include_once '../resources/navigation.php';
+include_once '../resources/undernavigation.php';
 ?>
 <div class="container">
 			<h2>Rang bearbeiten</h2>
@@ -53,23 +71,24 @@ include_once '../resources/navigation.php';
 		<div class="row container">
 			
 					<?php
-					$query = "select id, rang from rang where id = " . $id . ";";
+					$query = "select id, rank from rank where id = " . $id . ";";
 					$result = $conn->query ( $query );
 					$rang = new Rang ();
 					while ( $res = $result->fetch_assoc () ) {
-						$rang->setId($res['id']);
-						$rang->setRang($res['rang']);
+						$rang->setId ( $res ['id'] );
+						$rang->setRang ( $res ['rank'] );
 					}
 					?>
 					<form action="<?php echo $_SERVER["PHP_SELF"]; ?>" method="post">
 					<?php echo $message; ?>
 				<div class="form-group">
-				<input class="form-control" type="hidden" name="id" value="<?php echo $id; ?>">
-					<label for="inputSize">Rang</label> <input type="text"
-						class="form-control" name="rang" id="inputRang"
+					<input class="form-control" type="hidden" name="id"
+						value="<?php echo $id; ?>"> <label for="inputSize">Rang</label> <input
+						type="text" class="form-control" name="rank" id="inputRang"
 						placeholder="Rang" value="<?php echo $rang->getRang(); ?>">
 				</div>
-				<button type="submit" class="btn btn-default">Speichern</button> <a href="../rang.php" class="cancel"> Abbrechen</a>
+				<button type="submit" class="btn btn-default">Speichern</button>
+				<a href="../rank.php" class="cancel"> Abbrechen</a>
 			</form>
 		</div>
 

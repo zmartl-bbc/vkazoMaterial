@@ -30,11 +30,10 @@ if (isset ( $_GET ['action'] )) {
 			<?php
 	} else if ($result = 'delete') {
 		if (isset ( $_GET ['id'] )) {
-			$id = htmlspecialchars($_GET['id']);
-			$query = "delete from rang where id = '" .$id. "';";
-			$result = $conn->query($query);
-			
-			if($result){
+			$id = htmlspecialchars ( $_GET ['id'] );
+			$query = "delete from rank where id = '" . $id . "';";
+			$result = $conn->query ( $query );
+			if ($result) {
 				?>
 				<div class="alert alert-danger fade in alert-custom"
 		id="alertSuccessMessage">
@@ -42,7 +41,14 @@ if (isset ( $_GET ['action'] )) {
 		<strong><i class="fa fa-trash"></i> Datensatz gel&ouml;scht!</strong>
 		<br /> Der Datensatz wurde gel&ouml;scht.
 	</div>
-				<?php 	
+				<?php
+			} else {
+				?><div class="alert alert-warning fade in alert-custom"
+		id="alertSuccessMessage">
+		<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+		<strong><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> Warnung!</strong>
+		<br /> Datensatz konnte nicht gel&ouml;scht werden. <br/>M&ouml;glicherweise ist er noch von einem anderen Datensatz in Gebrauch.
+	</div><?php
 			}
 		}
 	}
@@ -74,12 +80,12 @@ include_once 'resources/navigation.php';
 				</thead>
 				<tbody>
 					<?php
-					$query = "SELECT id, Rang FROM rang";
+					$query = "SELECT id, rank FROM rank";
 					$result = $conn->query ( $query );
 					
 					while ( $res = $result->fetch_assoc () ) {
 						echo '<tr>';
-						echo '<td>' . $res ['Rang'] . '</td>';
+						echo '<td>' . $res ['rank'] . '</td>';
 						echo '<td class="text-right"><a href="rang/edit.php?id=' . $res ['id'] . '"><i class="fa fa-pencil"></i></a> <a href="' . $_SERVER ["PHP_SELF"] . '?action=delete&id=' . $res ['id'] . '"><i class="fa fa-trash"></i></a></td>';
 						echo '</tr>';
 					}

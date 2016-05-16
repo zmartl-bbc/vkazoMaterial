@@ -13,16 +13,33 @@ include_once '../model/Size.php';
 <?php
 
 if (isset ( $_POST ['size'] )) {
-	$size = strtoupper(htmlspecialchars ( $_POST ['size'] ));
-	$query = "insert into groesse (Groesse) values ('" . $size . "');";
-	$result = $conn->query ( $query );
-	if ($result) {
-		header ( "Location: ../size.php?action=create" );
-	} else {
-		?>
+	$size = strtoupper ( htmlspecialchars ( $_POST ['size'] ) );
+	$selectquery = "select id from size where Size = '" . $size . "'";
+	$res = $conn->query ( $selectquery );
+	
+	if ($res->num_rows < 1) {
+		
+		$query = "insert into size (Size) values ('" . $size . "');";
+		$result = $conn->query ( $query );
+		if ($result) {
+			header ( "Location: ../size.php?action=create" );
+		} else {
+			?>
 		<div class="alert alert-danger fade in alert-custom">
 	<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-	<strong><i class="fa fa-exclamation-circle"></i> Achtung!</strong> <br/> Der Datensatz konnte nicht ge&auml;ndert werden.
+	<strong><i class="fa fa-exclamation-circle"></i> Achtung!</strong> <br />
+	Der Datensatz konnte nicht ge&auml;ndert werden.
+</div>
+		<?php
+		}
+	} else {
+		?>
+		<div class="alert alert-warning fade in alert-custom"
+	id="alertSuccessMessage">
+	<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+	<strong><i class="fa fa-exclamation-triangle" aria-hidden="true"></i>
+		Datensatz schon vorhanden</strong> <br /> Der Datensatz ist schon
+	vorhanden.
 </div>
 		<?php
 	}
@@ -39,19 +56,20 @@ if (isset ( $_POST ['size'] )) {
 			</div>
 		</div>
 <?php
-include_once '../resources/navigation.php';
+include_once '../resources/undernavigation.php';
 ?>
 <div class="container">
 			<h2>Gr&ouml;sse hinzuf&uuml;gen</h2>
 		</div>
 		<div class="row container">
-					<form action="<?php echo $_SERVER["PHP_SELF"]; ?>" method="post">
+			<form action="<?php echo $_SERVER["PHP_SELF"]; ?>" method="post">
 					<?php echo $message; ?>
 				<div class="form-group">
-					<input class="form-control" type="hidden" name="id"
-						value=""> <label for="inputSize">Gr&ouml;sse</label>
-					<input type="text" class="form-control" name="size" id="inputSize"
-						placeholder="Gr&ouml;sse" value="">
+					<input class="form-control" type="hidden" name="id" value=""> <label
+						for="inputSize">Gr&ouml;sse</label> <input type="text"
+						class="form-control" name="size" id="inputSize"
+						placeholder="Gr&ouml;sse"
+						value="<?php if(isset($size)){echo $size;} ?>">
 				</div>
 				<button type="submit" class="btn btn-default">Speichern</button>
 				<a href="../size.php" class="cancel"> Abbrechen</a>
