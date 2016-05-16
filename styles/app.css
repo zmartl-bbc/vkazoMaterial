@@ -1,0 +1,19 @@
+.row {
+	margin: 10px 0;
+}
+
+.fa-default {
+	color: orange;
+}
+
+.cancel {
+	padding-left: 15px;
+}
+
+.alert-custom {
+	position: absolute;
+	z-index: 999;
+	bottom: 0;
+	right: 0;
+	margin: 1%;
+}
