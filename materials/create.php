@@ -68,7 +68,8 @@ if ((isset ( $_POST ['material'] )) && (isset ( $_POST ['received'] )) && (isset
 include_once '../resources/undernavigation.php';
 ?>
 <div class="container">
-			<h2>Materialen bearbeiten</h2>
+			<h2>Materialen hinzuf&uuml;gen
+		
 		</div>
 		<div class="row container">
 			<form action="<?php echo $_SERVER["PHP_SELF"]; ?>" method="post">
@@ -79,15 +80,15 @@ include_once '../resources/undernavigation.php';
 					$executeRes = $conn->query ( $selectQuery );
 					?>
 				<div class="form-group">
-					<label for="material">K&uuml;rzel</label>
-					<select name="kuerzel" class="form-control" required>
+					<label for="material">K&uuml;rzel</label> <select name="kuerzel"
+						class="form-control" required>
+						<option selected disabled>-- Option w&auml;hlen --</option>
 					<?php
 					$selectquery = "select Id from user";
 					$executeResult = $conn->query ( $selectquery );
 					while ( $fetchRes = $executeResult->fetch_assoc () ) {
-						echo '<option value="' . $fetchRes ['Id'] . '">'. $fetchRes ['Id'] . '</option>';
+						echo '<option value="' . $fetchRes ['Id'] . '">' . $fetchRes ['Id'] . '</option>';
 					}
-					
 					?>
 					</select>
 				</div>

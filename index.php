@@ -5,11 +5,14 @@
 <body>
 	<div class="container">
 		<div class="row">
-			<div class="col-md-4">
+			<div class="col-md-3">
 				<img src="images/logo.jpg" alt="logo">
 			</div>
-			<div class="col-md-8">
+			<div class="col-md-6">
 				<h1>Materialverwaltung VKAZO</h1>
+			</div>
+			<div class="col-md-3">
+				<h1><i class="fa fa-user" aria-hidden="true"></i> Luca Marti</h1>
 			</div>
 		</div>
 <?php
